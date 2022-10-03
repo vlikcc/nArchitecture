@@ -1,4 +1,5 @@
-﻿using Application.Services.Repositories;
+﻿using Application.Services.AuthService;
+using Application.Services.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +23,7 @@ namespace Persistence
                                                          configuration.GetConnectionString("RentACarCampConnectionString")));
             services.AddScoped<IBrandRepository, BrandRepository>();
             services.AddScoped<IModelRepository, ModelRepository>();
+            services.AddScoped<IAuthService, AuthManager>();
 
             return services;
         }

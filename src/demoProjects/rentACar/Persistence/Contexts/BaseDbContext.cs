@@ -53,6 +53,39 @@ namespace Persistence.Contexts
                 a.HasOne(p => p.Brand);
             });
 
+            modelBuilder.Entity<User>(u =>
+            {
+                u.ToTable("Users").HasKey(k=>k.Id);
+                u.Property(p => p.Id).HasColumnName("Id");
+                u.Property(p => p.FirstName).HasColumnName("FirstName");
+                u.Property(p => p.LastName).HasColumnName("LastName");
+                u.Property(p => p.Email).HasColumnName("Email");
+                u.Property(p => p.Status).HasColumnName("Status");
+                u.Property(p=>p.PasswordHash).HasColumnName("PasswordHash");
+                u.Property(p => p.PasswordSalt).HasColumnName("PasswordSalt");
+                u.Property(p => p.AuthenticatorType).HasColumnName("AuthenticatorType");
+                u.HasMany(u => u.RefreshTokens);
+                u.HasMany(u => u.UserOperationClaims);
+                
+            });
+
+            modelBuilder.Entity<OperationClaim>(o =>
+            {
+                o.ToTable("OperationClaims").HasKey(k => k.Id);
+                o.Property(p => p.Id).HasColumnName("Id");
+                o.Property(p => p.Name).HasColumnName("Name");                
+            });
+
+            modelBuilder.Entity<UserOperationClaim>(u =>
+            {
+                u.ToTable("UserOperationClaims").HasKey(k => k.Id);
+                u.Property(p => p.Id).HasColumnName("Id");
+                u.Property(p=>p.UserId).HasColumnName("UserId");
+                u.Property(p => p.OperationClaimId).HasColumnName("OperationClaimId");
+                u.HasOne(u=>u.User);
+                u.HasOne(u => u.OperationClaim);
+            });
+
 
 
             Brand[] brandEntitySeeds = { new(1, "BMW"), new(2, "Mercedes") };
